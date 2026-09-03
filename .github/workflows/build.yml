@@ -44,9 +44,14 @@ jobs:
         chmod +x gradlew
         ./gradlew assembleDebug --no-daemon
 
+    - name: Collect and Prepare APK
+      run: |
+        mkdir -p ${{ github.workspace }}/apk-output
+        find ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/ -name "*.apk" -exec cp {} ${{ github.workspace }}/apk-output/ \;
+
     - name: Upload ApexTunnel APK
       uses: actions/upload-artifact@v4
       if: ${{ success() }}
       with:
         name: ApexTunnel-Debug-APK
-        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/debug/*.apk
+        path: ${{ github.workspace }}/apk-output/*.apk
