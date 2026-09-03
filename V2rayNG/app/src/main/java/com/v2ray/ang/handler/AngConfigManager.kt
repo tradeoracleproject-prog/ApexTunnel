@@ -92,10 +92,10 @@ object AngConfigManager {
                 sb.append(url)
                 sb.appendLine()
             }
-            if (sb.count() > 0) {
+            if (sb.isNotEmpty()) {
                 Utils.setClipboard(context, sb.toString())
             }
-            return sb.lines().count() - 1
+            return sb.toString().lines().count() - 1
         } catch (e: Exception) {
             LogUtil.e(AppConfig.TAG, "Failed to share non-custom configs to clipboard", e)
             return -1
@@ -163,7 +163,7 @@ object AngConfigManager {
                 EConfigType.TROJAN -> TrojanFmt.toUri(config)
                 EConfigType.WIREGUARD -> WireguardFmt.toUri(config)
                 EConfigType.HYSTERIA2 -> Hysteria2Fmt.toUri(config)
-                else -> {}
+                else -> ""
             }
         } catch (e: Exception) {
             LogUtil.e(AppConfig.TAG, "Failed to share config for GUID: $guid", e)
@@ -198,7 +198,7 @@ object AngConfigManager {
             }
 
             count to countSub
-        } catch (e: ProfileStorageException) {
+        } catch (e: Exception) {
             LogUtil.e(AppConfig.TAG, "Failed to store imported profiles", e)
             0 to 0
         }
@@ -221,7 +221,11 @@ object AngConfigManager {
                 .distinct()
                 .forEach { str ->
                     if (Utils.isValidSubUrl(str)) {
-                        count += importUrlAsSubscription(str)
+                        try {
+                            count += importUrlAsSubscription(str)
+                        } catch (e: Exception) {
+                            LogUtil.e(AppConfig.TAG, "Failed to import subscription URL", e)
+                        }
                     }
                 }
             return count
@@ -269,15 +273,13 @@ object AngConfigManager {
 
             if (allConfigs.isNotEmpty()) {
                 commitProfiles(
-                    configs = allConfigs.map(::ParsedProfile),
+                    configs = allConfigs.map { ParsedProfile(it) },
                     subid = subid,
                     append = append,
                 )
             }
 
             return allConfigs.size
-        } catch (e: ProfileStorageException) {
-            throw e
         } catch (e: Exception) {
             LogUtil.e(AppConfig.TAG, "Failed to parse batch config", e)
         }
@@ -346,8 +348,6 @@ object AngConfigManager {
                     commitProfiles(configs, subid, append)
                     return configs.size
                 }
-            } catch (e: ProfileStorageException) {
-                throw e
             } catch (e: Exception) {
                 LogUtil.e(AppConfig.TAG, "Failed to parse custom config server JSON array", e)
             }
@@ -363,8 +363,6 @@ object AngConfigManager {
                     append = append,
                 )
                 return 1
-            } catch (e: ProfileStorageException) {
-                throw e
             } catch (e: Exception) {
                 LogUtil.e(AppConfig.TAG, "Failed to parse custom config server as single config", e)
             }
@@ -380,8 +378,6 @@ object AngConfigManager {
                     append = append,
                 )
                 return 1
-            } catch (e: ProfileStorageException) {
-                throw e
             } catch (e: Exception) {
                 LogUtil.e(AppConfig.TAG, "Failed to parse WireGuard config file", e)
             }

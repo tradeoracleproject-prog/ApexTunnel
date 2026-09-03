@@ -191,7 +191,6 @@ object AppConfig {
     const val MSG_SUB_UPDATE_CANCEL = 81
 
     /** Notification channel IDs and names. */
-    // Use a new ID because Android does not let an app raise an existing channel's importance.
     const val RAY_NG_CHANNEL_ID = "CORE_M_CH_ID_V2"
     const val RAY_NG_CHANNEL_NAME = "Core Background Service"
 
@@ -219,33 +218,28 @@ object AppConfig {
     /** Root (system-wide) mode runtime constants. */
     const val ROOT_RUNTIME_DIR = "sys_cache"
     const val ROOT_IPTABLES_CHAIN = "CORE_FILTER"
-    const val ROOT_FWMARK = 255            // defensive RETURN tag; hev's only upstream socket is loopback (already bypassed)
-    const val ROOT_MARK_ROUTE = 1          // packets we want pushed into the tun device
+    const val ROOT_FWMARK = 255            
+    const val ROOT_MARK_ROUTE = 1          
     const val ROOT_ROUTE_TABLE = 2024
     const val ROOT_RULE_PRIORITY = 1000
     const val ROOT_TUN_NAME = "utun7788"
     const val ROOT_TUN_ADDR_V4 = "198.18.0.1/15"
     const val ROOT_TUN_ADDR_V6 = "fdfe:dcba:9876::1/64"
 
-    // hev-socks5-tunnel run as a standalone root binary (reuses the same project already
-    // bundled for the VPN hev path; distinct filename from the JNI lib to avoid collision).
     const val ROOT_TUN2SOCKS_BIN = "libhevsockstun.so"
-    const val ROOT_FWD_CHAIN = "CORE_FWD"   // FORWARD chain for LAN/tethering sharing
-    const val ROOT_DNS_CHAIN = "CORE_DNS"   // nat chain for tethered-client DNS DNAT
-    const val ROOT_V6_CHAIN = "CORE6_FILTER"       // ip6tables filter/OUTPUT chain: blackhole native IPv6 when it isn't tunneled
-    const val ROOT_V6_FWD_CHAIN = "CORE6_FWD" // ip6tables FORWARD chain: route or reject tethered clients' native IPv6
-    const val ROOT_V6_PRE_CHAIN = "CORE6_PRE" // ip6tables mangle/PREROUTING chain: mark forwarded clients' IPv6 into the tun
-    const val ROOT_LAN_DNS = "1.1.1.1"          // fallback resolver for tethered clients when no plain-IPv4 DNS is configured
-    const val ROOT_OOM_SCORE = "-1000"          // oom_score_adj that makes the LMK never kill us
+    const val ROOT_FWD_CHAIN = "CORE_FWD"   
+    const val ROOT_DNS_CHAIN = "CORE_DNS"   
+    const val ROOT_V6_CHAIN = "CORE6_FILTER"       
+    const val ROOT_V6_FWD_CHAIN = "CORE6_FWD" 
+    const val ROOT_V6_PRE_CHAIN = "CORE6_PRE" 
+    const val ROOT_LAN_DNS = "1.1.1.1"          
+    const val ROOT_OOM_SCORE = "-1000"          
 
-    /** hev-sock5-tunnel read-write-timeout value */
     const val HEVTUN_RW_TIMEOUT = "300,60"
 
-    // Google API rule constants
     const val GOOGLEAPIS_CN_DOMAIN = "domain:googleapis.cn"
     const val GOOGLEAPIS_COM_DOMAIN = "googleapis.com"
 
-    // Android Private DNS constants
     const val DNS_ALIDNS_DOMAIN = "dns.alidns.com"
     const val DNS_CISCO_SSE_DOMAIN = "dns.sse.cisco.com"
     const val DNS_CISCO_UMBRELLA_DOMAIN = "dns.umbrella.com"
@@ -286,7 +280,6 @@ object AppConfig {
     val DNS_SB_ADDRESSES = arrayListOf("45.11.45.11", "185.222.222.222", "2a09::", "2a11::")
     val DNS_YANDEX_ADDRESSES = arrayListOf("77.88.8.8", "77.88.8.1", "2a02:6b8::feed:0ff", "2a02:6b8:0:1::feed:0ff")
 
-    //minimum list https://serverfault.com/a/304791
     val ROUTED_IP_LIST = arrayListOf(
         "0.0.0.0/5",
         "8.0.0.0/7",
