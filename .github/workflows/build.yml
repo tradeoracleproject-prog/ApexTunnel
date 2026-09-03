@@ -38,11 +38,11 @@ jobs:
         fileName: 'libv2ray.aar'
         out-file-path: V2rayNG/app/libs/
 
-    - name: Build Debug APK
+    - name: Build Release APK
       run: |
         cd ${{ github.workspace }}/V2rayNG
         chmod +x gradlew
-        ./gradlew assembleDebug --no-daemon
+        ./gradlew assembleFdroidRelease --no-daemon
 
     - name: Collect and Prepare APK
       run: |
@@ -53,5 +53,5 @@ jobs:
       uses: actions/upload-artifact@v4
       if: ${{ success() }}
       with:
-        name: ApexTunnel-Debug-APK
+        name: ApexTunnel-Release-APK
         path: ${{ github.workspace }}/apk-output/*.apk
