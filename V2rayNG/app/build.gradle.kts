@@ -50,7 +50,7 @@ android {
     productFlavors {
         create("fdroid") {
             dimension = "distribution"
-            applicationSuffix = ".fdroid"
+            applicationIdSuffix = ".fdroid"
             buildConfigField("String", "DISTRIBUTION", "\"F-Droid\"")
         }
         create("playstore") {
@@ -61,7 +61,7 @@ android {
 
     sourceSets {
         getByName("main") {
-            jniLibs.srcDirs("libs")
+            jniLibs.directories.add(file("libs"))
         }
     }
 
