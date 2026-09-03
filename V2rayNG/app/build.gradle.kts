@@ -25,10 +25,7 @@ android {
                     include(*abiFilterList.toTypedArray())
                 } else {
                     include(
-                        "arm64-v8a",
-                        "armeabi-v7a",
-                        "x86_64",
-                        "x86"
+                        "armeabi-v7a"
                     )
                 }
                 isUniversalApk = false
@@ -40,8 +37,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
